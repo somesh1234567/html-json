@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <title>Javascript project</title>
+  </head>
+  <body>
+    <div class="container">
+      <table class="table table-stripped">
+        <thead>
+          <tr>
+            <th>MACHINE NAME</th>
+            <th>MACHINE ID</th>
+            <td>
+              <table>
+                <tr>
+                  <th colspan="3">ENERGY CONSUMED</th>
+                </tr>
+                <tr>
+                  <th>Today</th>
+                  <th>Today</th>
+                  <th>Today</th>
+                </tr>
+              </table>
+            </td>
+            <th>CURRENT(Amps)</th>
+            <th>VOLTAGE(Volts)</th>
+            <th>POWER FACTOR</th>
+            <th>ACTIVE POWER</th>
+            <th>APPARENT POWER</th>
+            <th>REACTIVE POWER</th>
+            <td>
+              <table>
+                <tr>
+                  <th colspan="3">IDLE TIME</th>
+                </tr>
+                <tr>
+                  <th>Today</th>
+                  <th>MTD</th>
+                  <th>YTD</th>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </thead>
+        <tbody id="data"></tbody>
+      </table>
+    </div>
+
+    <script>
+      fetch("main.JSON").then((res) => {
+        res.json().then((data) => {
+          console.log(data);
+          if (data.length > 0) {
+            var temp = "";
+            data.forEach((u) => {
+              temp += "<tr>";
+              temp += "<td>" + u.machine_name + "</td>";
+              temp += "<td>" + u.machine_id + "</td>";
+              temp +=
+                "<td><table>" +
+                "<td>" +
+                u.energy_consumed.daily_energy +
+                "</td>" +
+                "<td>" +
+                u.energy_consumed.monthly_energy +
+                "</td>" +
+                "<td>" +
+                u.energy_consumed.yearly_energy +
+                "</td>" +
+                "</table></td>";
+              temp += "<td>" + u.current + "</td>";
+              temp += "<td>" + u.voltage + "</td>";
+              temp += "<td>" + u.power_factor + "</td>";
+              temp += "<td>" + u.active_power + "</td>";
+              temp += "<td>" + u.apparent_power + "</td>";
+              temp += "<td>" + u.reactive_power + "</td>";
+              temp +=
+                "<td><table>" +
+                "<td>" +
+                u.idle_time.idle_daily +
+                "</td>" +
+                "<td>" +
+                u.idle_time.idle_monthly +
+                "</td>" +
+                "<td>" +
+                u.idle_time.idle_yearly +
+                "</td>" +
+                "</table></td>";
+            });
+
+            document.getElementById("data").innerHTML = temp;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
